@@ -24,7 +24,6 @@ var('x:6')
 
 
 def str2fun(str):
-    print(str)
     function = lambdify((x1,x2,x3,x4,x5), parse_expr(str, transformations=trans))
     def funcVec(x):
         x1 = 0
