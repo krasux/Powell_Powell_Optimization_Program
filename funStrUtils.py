@@ -1,3 +1,4 @@
+from numbers import Number
 from sympy.utilities.lambdify import lambdify
 from sympy import var
 from sympy.parsing.sympy_parser import (
@@ -31,16 +32,19 @@ def str2fun(str):
         x3 = 0
         x4 = 0
         x5 = 0
-        if len(x) >= 1:
-            x1 = x[0]
-        if len(x) >= 2:
-            x2 = x[1]
-        if len(x) >= 3:
-            x3 = x[2]
-        if len(x) >= 4:
-            x4 = x[3]
-        if len(x) >= 5:
-            x5 = x[4]
+        if isinstance(x, Number):
+            x1 = x
+        else:
+            if len(x) >= 1:
+                x1 = x[0]
+            if len(x) >= 2:
+                x2 = x[1]
+            if len(x) >= 3:
+                x3 = x[2]
+            if len(x) >= 4:
+                x4 = x[3]
+            if len(x) >= 5:
+                x5 = x[4]
         return function(x1, x2, x3, x4, x5)
     return funcVec
 
