@@ -269,19 +269,18 @@
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
-         <layout class="QGridLayout" name="gridLayout_9">
+         <layout class="QGridLayout" name="parameters">
           <item row="1" column="0">
-           <widget class="QFrame" name="frame_6">
-            <property name="frameShape">
-             <enum>QFrame::Box</enum>
+           <widget class="QGroupBox" name="gbParamPowell">
+            <property name="font">
+             <font>
+              <pointsize>12</pointsize>
+             </font>
             </property>
-            <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
+            <property name="title">
+             <string>Parameters for Powell methods:</string>
             </property>
-            <property name="lineWidth">
-             <number>2</number>
-            </property>
-            <layout class="QVBoxLayout" name="verticalLayout_7">
+            <layout class="QVBoxLayout" name="verticalLayout_4">
              <item>
               <widget class="QLabel" name="label_5">
                <property name="text">
@@ -360,6 +359,13 @@
                   </item>
                  </widget>
                 </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="lblEpsilon">
+                  <property name="text">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Epsilon:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                 </widget>
+                </item>
                 <item row="1" column="1">
                  <widget class="QComboBox" name="cmbPowellEpsilon">
                   <property name="sizePolicy">
@@ -377,11 +383,6 @@
                   <property name="editable">
                    <bool>true</bool>
                   </property>
-                  <item>
-                   <property name="text">
-                    <string>0.01</string>
-                   </property>
-                  </item>
                   <item>
                    <property name="text">
                     <string>1e-3</string>
@@ -414,13 +415,6 @@
                   </item>
                  </widget>
                 </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="lblEpsilon">
-                  <property name="text">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Epsilon:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </widget>
-                </item>
                </layout>
               </widget>
              </item>
@@ -432,7 +426,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QFrame" name="frame_7">
+              <widget class="QFrame" name="frmPowellConstrParams">
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
                </property>
@@ -440,8 +434,15 @@
                 <enum>QFrame::Raised</enum>
                </property>
                <layout class="QGridLayout" name="gridLayout_7">
+                <item row="1" column="0" rowspan="2">
+                 <widget class="QLabel" name="lblPowellConstrParamM1">
+                  <property name="text">
+                   <string>m1</string>
+                  </property>
+                 </widget>
+                </item>
                 <item row="0" column="0">
-                 <widget class="QLabel" name="label_7">
+                 <widget class="QLabel" name="lblPowellConstrParamCMin">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
                     <horstretch>0</horstretch>
@@ -453,38 +454,133 @@
                   </property>
                  </widget>
                 </item>
-                <item row="0" column="1">
-                 <widget class="QComboBox" name="comboBox_3">
-                  <property name="editable">
-                   <bool>true</bool>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="0" rowspan="2">
-                 <widget class="QLabel" name="label_8">
+                <item row="3" column="0">
+                 <widget class="QLabel" name="lblPowellConstrParamM1_2">
                   <property name="text">
-                   <string>m1</string>
+                   <string>m2</string>
                   </property>
                  </widget>
                 </item>
                 <item row="1" column="1">
-                 <widget class="QComboBox" name="comboBox_4">
-                  <property name="editable">
-                   <bool>true</bool>
+                 <widget class="QSlider" name="hSldM1">
+                  <property name="maximum">
+                   <number>1000</number>
+                  </property>
+                  <property name="singleStep">
+                   <number>1</number>
+                  </property>
+                  <property name="value">
+                   <number>250</number>
+                  </property>
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
                   </property>
                  </widget>
                 </item>
-                <item row="2" column="1" rowspan="2">
-                 <widget class="QComboBox" name="comboBox_5">
-                  <property name="editable">
-                   <bool>true</bool>
+                <item row="1" column="2">
+                 <widget class="QDoubleSpinBox" name="dSBM1">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                  <property name="decimals">
+                   <number>3</number>
+                  </property>
+                  <property name="maximum">
+                   <double>1.000000000000000</double>
+                  </property>
+                  <property name="singleStep">
+                   <double>0.001000000000000</double>
+                  </property>
+                  <property name="value">
+                   <double>0.250000000000000</double>
                   </property>
                  </widget>
                 </item>
-                <item row="3" column="0">
-                 <widget class="QLabel" name="label_9">
-                  <property name="text">
-                   <string>m2</string>
+                <item row="3" column="2">
+                 <widget class="QDoubleSpinBox" name="dSBM2">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                  <property name="decimals">
+                   <number>1</number>
+                  </property>
+                  <property name="minimum">
+                   <double>1.000000000000000</double>
+                  </property>
+                  <property name="maximum">
+                   <double>100.000000000000000</double>
+                  </property>
+                  <property name="singleStep">
+                   <double>0.100000000000000</double>
+                  </property>
+                  <property name="value">
+                   <double>10.000000000000000</double>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="2">
+                 <widget class="QDoubleSpinBox" name="dSBcMin">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                  <property name="decimals">
+                   <number>3</number>
+                  </property>
+                  <property name="minimum">
+                   <double>0.001000000000000</double>
+                  </property>
+                  <property name="maximum">
+                   <double>0.200000000000000</double>
+                  </property>
+                  <property name="singleStep">
+                   <double>0.001000000000000</double>
+                  </property>
+                  <property name="value">
+                   <double>0.100000000000000</double>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="1">
+                 <widget class="QSlider" name="hSldM2">
+                  <property name="minimum">
+                   <number>10</number>
+                  </property>
+                  <property name="maximum">
+                   <number>1000</number>
+                  </property>
+                  <property name="singleStep">
+                   <number>1</number>
+                  </property>
+                  <property name="value">
+                   <number>100</number>
+                  </property>
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QSlider" name="hSldcMin">
+                  <property name="maximum">
+                   <number>200</number>
+                  </property>
+                  <property name="singleStep">
+                   <number>1</number>
+                  </property>
+                  <property name="value">
+                   <number>100</number>
+                  </property>
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
                   </property>
                  </widget>
                 </item>
@@ -494,8 +590,176 @@
             </layout>
            </widget>
           </item>
-          <item row="0" column="1">
+          <item row="0" column="0">
+           <widget class="QGroupBox" name="gbConstraints">
+            <property name="font">
+             <font>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
+            <property name="title">
+             <string>Constraints for searching for minimum:</string>
+            </property>
+            <layout class="QGridLayout" name="gridLayout_4">
+             <property name="sizeConstraint">
+              <enum>QLayout::SetDefaultConstraint</enum>
+             </property>
+             <item row="4" column="0">
+              <widget class="QLabel" name="lblConstraint5">
+               <property name="text">
+                <string>Constraint 5:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="lblConstraint3">
+               <property name="text">
+                <string>Constraint 3:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="lblConstraint2">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>Constraint 2:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QLineEdit" name="inputConstraint1">
+               <property name="font">
+                <font>
+                 <pointsize>10</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>0</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0">
+              <widget class="QLabel" name="lblConstraint1">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>Constraint 1:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="0">
+              <widget class="QLabel" name="lblConstraint4">
+               <property name="text">
+                <string>Constraint 4:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="1">
+              <widget class="QLineEdit" name="inputConstraint5">
+               <property name="font">
+                <font>
+                 <pointsize>10</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>0</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="QLineEdit" name="inputConstraint4">
+               <property name="font">
+                <font>
+                 <pointsize>10</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>0</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLineEdit" name="inputConstraint2">
+               <property name="font">
+                <font>
+                 <pointsize>10</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>0</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="2">
+              <widget class="QLabel" name="lblConstrEq1">
+               <property name="text">
+                <string>&lt;=0</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QLineEdit" name="inputConstraint3">
+               <property name="font">
+                <font>
+                 <pointsize>10</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>0</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="2">
+              <widget class="QLabel" name="lblConstrEq2">
+               <property name="text">
+                <string>&lt;=0</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="2">
+              <widget class="QLabel" name="lblConstrEq3">
+               <property name="text">
+                <string>&lt;=0</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="2">
+              <widget class="QLabel" name="lblConstrEq4">
+               <property name="text">
+                <string>&lt;=0</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="2">
+              <widget class="QLabel" name="lblConstrEq5">
+               <property name="text">
+                <string>&lt;=0</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item row="1" column="2">
            <widget class="QGroupBox" name="gbStartPoint">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="font">
              <font>
               <pointsize>12</pointsize>
@@ -514,6 +778,13 @@
              <property name="sizeConstraint">
               <enum>QLayout::SetMinAndMaxSize</enum>
              </property>
+             <item row="4" column="0">
+              <widget class="QLabel" name="lbX0_4">
+               <property name="text">
+                <string>x0_4</string>
+               </property>
+              </widget>
+             </item>
              <item row="2" column="0">
               <widget class="QLabel" name="lbX0_2">
                <property name="text">
@@ -528,10 +799,15 @@
                </property>
               </widget>
              </item>
-             <item row="4" column="0">
-              <widget class="QLabel" name="lbX0_4">
+             <item row="0" column="1">
+              <widget class="QLineEdit" name="inputX0_1">
+               <property name="font">
+                <font>
+                 <pointsize>10</pointsize>
+                </font>
+               </property>
                <property name="text">
-                <string>x0_4</string>
+                <string>0</string>
                </property>
               </widget>
              </item>
@@ -555,8 +831,8 @@
                </property>
               </widget>
              </item>
-             <item row="0" column="1">
-              <widget class="QLineEdit" name="inputX0_1">
+             <item row="3" column="1">
+              <widget class="QLineEdit" name="inputX0_3">
                <property name="font">
                 <font>
                  <pointsize>10</pointsize>
@@ -569,18 +845,6 @@
              </item>
              <item row="2" column="1">
               <widget class="QLineEdit" name="inputX0_2">
-               <property name="font">
-                <font>
-                 <pointsize>10</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>0</string>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="1">
-              <widget class="QLineEdit" name="inputX0_3">
                <property name="font">
                 <font>
                  <pointsize>10</pointsize>
@@ -615,52 +879,48 @@
                </property>
               </widget>
              </item>
+             <item row="6" column="1">
+              <spacer name="verticalSpacer">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
             </layout>
            </widget>
           </item>
-          <item row="1" column="1">
-           <spacer name="verticalSpacer">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="0" column="0">
-           <widget class="QGroupBox" name="groupBoxConstraints">
+          <item row="0" column="2">
+           <widget class="QGroupBox" name="gbConstrParameters">
             <property name="font">
              <font>
               <pointsize>12</pointsize>
              </font>
             </property>
             <property name="title">
-             <string>Constraints for searching for minimum:</string>
+             <string>Constraints parameters:</string>
             </property>
-            <layout class="QGridLayout" name="gridLayout_4">
-             <property name="sizeConstraint">
-              <enum>QLayout::SetDefaultConstraint</enum>
-             </property>
-             <item row="4" column="0">
-              <widget class="QLabel" name="lblConstraint5">
-               <property name="text">
-                <string>Constraint 5:</string>
+            <layout class="QGridLayout" name="gridLayout_8">
+             <item row="0" column="4">
+              <spacer name="horizontalSpacer_4">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
                </property>
-              </widget>
-             </item>
-             <item row="3" column="0">
-              <widget class="QLabel" name="lblConstraint4">
-               <property name="text">
-                <string>Constraint 4:</string>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
                </property>
-              </widget>
+              </spacer>
              </item>
              <item row="0" column="0">
-              <widget class="QLabel" name="lblConstraint1">
+              <widget class="QLabel" name="lblConstraint1_2">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                  <horstretch>0</horstretch>
@@ -672,8 +932,69 @@
                </property>
               </widget>
              </item>
+             <item row="0" column="2">
+              <widget class="QLabel" name="lblConstrDelta1">
+               <property name="maximumSize">
+                <size>
+                 <width>30</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>delta1</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="5">
+              <widget class="QLabel" name="lblConstrTheta1">
+               <property name="maximumSize">
+                <size>
+                 <width>30</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>theta1</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="3">
+              <widget class="QDoubleSpinBox" name="dsbConstrDelta1">
+               <property name="decimals">
+                <number>3</number>
+               </property>
+               <property name="minimum">
+                <double>0.001000000000000</double>
+               </property>
+               <property name="maximum">
+                <double>999.999000000000024</double>
+               </property>
+               <property name="singleStep">
+                <double>0.001000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="6">
+              <widget class="QDoubleSpinBox" name="dsbConstrTheta1">
+               <property name="decimals">
+                <number>3</number>
+               </property>
+               <property name="minimum">
+                <double>-999.999000000000024</double>
+               </property>
+               <property name="maximum">
+                <double>0.000000000000000</double>
+               </property>
+               <property name="singleStep">
+                <double>0.001000000000000</double>
+               </property>
+               <property name="value">
+                <double>-5.000000000000000</double>
+               </property>
+              </widget>
+             </item>
              <item row="1" column="0">
-              <widget class="QLabel" name="lblConstraint2">
+              <widget class="QLabel" name="lblConstraint2_2">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                  <horstretch>0</horstretch>
@@ -685,105 +1006,281 @@
                </property>
               </widget>
              </item>
-             <item row="0" column="1">
-              <widget class="QLineEdit" name="inputConstraint1">
-               <property name="font">
-                <font>
-                 <pointsize>10</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>0</string>
-               </property>
-              </widget>
-             </item>
              <item row="2" column="0">
-              <widget class="QLabel" name="lblConstraint3">
+              <widget class="QLabel" name="lblConstraint3_2">
                <property name="text">
                 <string>Constraint 3:</string>
                </property>
               </widget>
              </item>
-             <item row="2" column="1">
-              <widget class="QLineEdit" name="inputConstraint3">
-               <property name="font">
-                <font>
-                 <pointsize>10</pointsize>
-                </font>
-               </property>
+             <item row="3" column="0">
+              <widget class="QLabel" name="lblConstraint4_2">
                <property name="text">
-                <string>0</string>
+                <string>Constraint 4:</string>
                </property>
               </widget>
              </item>
-             <item row="1" column="1">
-              <widget class="QLineEdit" name="inputConstraint2">
-               <property name="font">
-                <font>
-                 <pointsize>10</pointsize>
-                </font>
-               </property>
+             <item row="4" column="0">
+              <widget class="QLabel" name="lblConstraint5_2">
                <property name="text">
-                <string>0</string>
-               </property>
-              </widget>
-             </item>
-             <item row="4" column="1">
-              <widget class="QLineEdit" name="inputConstraint5">
-               <property name="font">
-                <font>
-                 <pointsize>10</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>0</string>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="1">
-              <widget class="QLineEdit" name="inputConstraint4">
-               <property name="font">
-                <font>
-                 <pointsize>10</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>0</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="2">
-              <widget class="QLabel" name="label">
-               <property name="text">
-                <string>&lt;=0</string>
+                <string>Constraint 5:</string>
                </property>
               </widget>
              </item>
              <item row="1" column="2">
-              <widget class="QLabel" name="label_2">
+              <widget class="QLabel" name="lblConstrDelta2">
+               <property name="maximumSize">
+                <size>
+                 <width>30</width>
+                 <height>16777215</height>
+                </size>
+               </property>
                <property name="text">
-                <string>&lt;=0</string>
+                <string>delta2</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="5">
+              <widget class="QLabel" name="lblConstrTheta2">
+               <property name="maximumSize">
+                <size>
+                 <width>30</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>theta2</string>
                </property>
               </widget>
              </item>
              <item row="2" column="2">
-              <widget class="QLabel" name="label_3">
+              <widget class="QLabel" name="lblConstrDelta3">
+               <property name="maximumSize">
+                <size>
+                 <width>30</width>
+                 <height>16777215</height>
+                </size>
+               </property>
                <property name="text">
-                <string>&lt;=0</string>
+                <string>delta3</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="5">
+              <widget class="QLabel" name="lblConstrTheta3">
+               <property name="maximumSize">
+                <size>
+                 <width>30</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>theta3</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="5">
+              <widget class="QLabel" name="lblConstrTheta5">
+               <property name="maximumSize">
+                <size>
+                 <width>30</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>theta4</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="5">
+              <widget class="QLabel" name="lblConstrTheta4">
+               <property name="maximumSize">
+                <size>
+                 <width>30</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>theta4</string>
                </property>
               </widget>
              </item>
              <item row="3" column="2">
-              <widget class="QLabel" name="label_4">
+              <widget class="QLabel" name="lblConstrDelta4">
+               <property name="maximumSize">
+                <size>
+                 <width>30</width>
+                 <height>16777215</height>
+                </size>
+               </property>
                <property name="text">
-                <string>&lt;=0</string>
+                <string>delta4</string>
                </property>
               </widget>
              </item>
              <item row="4" column="2">
-              <widget class="QLabel" name="label_10">
+              <widget class="QLabel" name="lblConstrDelta5">
+               <property name="maximumSize">
+                <size>
+                 <width>30</width>
+                 <height>16777215</height>
+                </size>
+               </property>
                <property name="text">
-                <string>&lt;=0</string>
+                <string>delta5</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <spacer name="horizontalSpacer_5">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="1" column="3">
+              <widget class="QDoubleSpinBox" name="dsbConstrDelta2">
+               <property name="decimals">
+                <number>3</number>
+               </property>
+               <property name="minimum">
+                <double>0.001000000000000</double>
+               </property>
+               <property name="maximum">
+                <double>999.999000000000024</double>
+               </property>
+               <property name="singleStep">
+                <double>0.001000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="3">
+              <widget class="QDoubleSpinBox" name="dsbConstrDelta3">
+               <property name="decimals">
+                <number>3</number>
+               </property>
+               <property name="minimum">
+                <double>0.001000000000000</double>
+               </property>
+               <property name="maximum">
+                <double>999.999000000000024</double>
+               </property>
+               <property name="singleStep">
+                <double>0.001000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="3">
+              <widget class="QDoubleSpinBox" name="dsbConstrDelta4">
+               <property name="decimals">
+                <number>3</number>
+               </property>
+               <property name="minimum">
+                <double>0.001000000000000</double>
+               </property>
+               <property name="maximum">
+                <double>999.999000000000024</double>
+               </property>
+               <property name="singleStep">
+                <double>0.001000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="3">
+              <widget class="QDoubleSpinBox" name="dsbConstrDelta5">
+               <property name="decimals">
+                <number>3</number>
+               </property>
+               <property name="minimum">
+                <double>0.001000000000000</double>
+               </property>
+               <property name="maximum">
+                <double>999.999000000000024</double>
+               </property>
+               <property name="singleStep">
+                <double>0.001000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="6">
+              <widget class="QDoubleSpinBox" name="dsbConstrTheta2">
+               <property name="decimals">
+                <number>3</number>
+               </property>
+               <property name="minimum">
+                <double>-999.999000000000024</double>
+               </property>
+               <property name="maximum">
+                <double>0.000000000000000</double>
+               </property>
+               <property name="singleStep">
+                <double>0.001000000000000</double>
+               </property>
+               <property name="value">
+                <double>-5.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="6">
+              <widget class="QDoubleSpinBox" name="dsbConstrTheta3">
+               <property name="decimals">
+                <number>3</number>
+               </property>
+               <property name="minimum">
+                <double>-999.999000000000024</double>
+               </property>
+               <property name="maximum">
+                <double>0.000000000000000</double>
+               </property>
+               <property name="singleStep">
+                <double>0.001000000000000</double>
+               </property>
+               <property name="value">
+                <double>-5.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="6">
+              <widget class="QDoubleSpinBox" name="dsbConstrTheta4">
+               <property name="decimals">
+                <number>3</number>
+               </property>
+               <property name="minimum">
+                <double>-999.999000000000024</double>
+               </property>
+               <property name="maximum">
+                <double>0.000000000000000</double>
+               </property>
+               <property name="singleStep">
+                <double>0.001000000000000</double>
+               </property>
+               <property name="value">
+                <double>-5.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="6">
+              <widget class="QDoubleSpinBox" name="dsbConstrTheta5">
+               <property name="decimals">
+                <number>3</number>
+               </property>
+               <property name="minimum">
+                <double>-999.999000000000024</double>
+               </property>
+               <property name="maximum">
+                <double>0.000000000000000</double>
+               </property>
+               <property name="singleStep">
+                <double>0.001000000000000</double>
+               </property>
+               <property name="value">
+                <double>-5.000000000000000</double>
                </property>
               </widget>
              </item>
