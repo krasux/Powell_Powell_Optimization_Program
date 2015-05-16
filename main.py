@@ -17,9 +17,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     xStart = 0
     maxIterations = 0
     epsilonPowell = 10e-6
+    # Parameters for powell with constraints
     m1 = 0.250
     m2 = 10
     cMin = 0.2
+    # Parameters and options for searching in direction
+    bracketStep = 0.0001
+    goldenSearchWindow = 0.0001
+    bracketing = True
+
+
+
+
 
     def __init__(self):
         super(MainWindow, self).__init__()
@@ -82,7 +91,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.dsbConstrTheta4.valueChanged.connect(self.constraintsChanged)
         self.dsbConstrTheta5.valueChanged.connect(self.constraintsChanged)
 
-
         # Connect Powell parameters:
         self.dSBM1.valueChanged.connect(self.m1ChangedDSBox)
         self.hSldM1.valueChanged.connect(self.m1ChangedHSld)
@@ -91,6 +99,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.dSBcMin.valueChanged.connect(self.cMinChangedDSBox)
         self.hSldcMin.valueChanged.connect(self.cMinChangedHSld)
 
+        # Connect searching in direction parameters:
+        self.dsbBracketStep.valueChanged.connect(self.bracketStepChanged)
+        self.dsbGoldenSearchWindow.valueChanged.connect(self.goldenSearchWindowChanged)
+        self.checkBoxBracketing.stateChanged.connect(self.bracketingOptionChanged)
 
         # Set up variables and constrains inputs:
         self.setActiveConstrainInputs(self.numberOfConstraints)
@@ -99,6 +111,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setXStart(self.numberOfVariables)
         self.setMaxInterations(int(self.cmbMaxIterations.currentText()))
         self.setPowellEpsilon(float(self.cmbPowellEpsilon.currentText()))
+
+        # Set up states for searching in direction
+        self.dsbBracketStep.setDisabled(False)
+        self.lblBracketStep.setDisabled(False)
+        self.dsbGoldenSearchWindow.setDisabled(True)
+        self.lblGoldenSearchWindow.setDisabled(True)
+
         # Show the window at the end
         self.show()
 
@@ -299,25 +318,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def setPowellEpsilon(self, newEpsilon):
         self.epsilonPowell = newEpsilon
 
-    def startSearch(self):
-        self.statusBar().showMessage("Searching for minimum of: " + str(self.cmbObjFun.currentText())
-                                     + " With xStart: " + str(self.xStart))
-
-        self.logResults.insertPlainText('_'*80 + '\n')
-        self.logResults.insertPlainText("Searching for minimum of: " + str(self.cmbObjFun.currentText()) +'\n')
-        self.logResults.insertPlainText("Starting x: " + str(self.xStart) + '\n')
-
-        xMin, nIter, success = powell(self.meritum, self.xStart, epsilon=self.epsilonPowell,
-                                      iterations=self.maxIterations)
-        if success:
-            self.logResults.insertPlainText('Minimum found at x: ' + str(xMin) + '\n')
-        else:
-            self.logResults.insertPlainText('Minimum not found \n Max number of iterations exceeded\n')
-        self.logResults.insertPlainText("F(x) = " + str(self.meritum(xMin)) + '\n')
-        self.logResults.insertPlainText("Number of cycles = " + str(nIter) + '\n')
-
-        sb = self.logResults.verticalScrollBar()
-        sb.setValue(sb.maximum())
 
     # Set and get parameter M1
     def setM1(self, newM1):
@@ -355,7 +355,55 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def cMinChangedHSld(self):
         self.setcMin(self.hSldcMin.value()/1000)
 
+    # Set option for searching in direction
 
+    def setBracketStep(self, newBracketStep):
+        self.bracketStep = newBracketStep
+
+    def bracketStepChanged(self):
+        self.setBracketStep(self.dsbBracketStep.value())
+
+    def setGoldenSearchWindow(self, newGoldenSearchWindow):
+        self.goldenSearchWindow = newGoldenSearchWindow
+
+    def bracketingOptionChanged(self):
+        self.bracketing = self.checkBoxBracketing.isChecked()
+        if self.checkBoxBracketing.isChecked():
+            self.dsbBracketStep.setDisabled(False)
+            self.lblBracketStep.setDisabled(False)
+            self.dsbGoldenSearchWindow.setDisabled(True)
+            self.lblGoldenSearchWindow.setDisabled(True)
+        else:
+            self.dsbBracketStep.setDisabled(True)
+            self.lblBracketStep.setDisabled(True)
+            self.dsbGoldenSearchWindow.setDisabled(False)
+            self.lblGoldenSearchWindow.setDisabled(False)
+
+    def goldenSearchWindowChanged(self):
+        self.setGoldenSearchWindow(self.dsbGoldenSearchWindow.value())
+
+
+    # Powell algorithm
+    def startSearch(self):
+        self.statusBar().showMessage("Searching for minimum of: " + str(self.cmbObjFun.currentText())
+                                     + " With xStart: " + str(self.xStart))
+
+        self.logResults.insertPlainText('_'*80 + '\n')
+        self.logResults.insertPlainText("Searching for minimum of: " + str(self.cmbObjFun.currentText()) +'\n')
+        self.logResults.insertPlainText("Starting x: " + str(self.xStart) + '\n')
+
+        xMin, nIter, success = powell(self.meritum, self.xStart, epsilon=self.epsilonPowell,
+                                      iterations=self.maxIterations, bracketing=self.bracketing,
+                                      bracketStep=self.bracketStep, goldenSearchWindow=self.goldenSearchWindow)
+        if success:
+            self.logResults.insertPlainText('Minimum found at x: ' + str(xMin) + '\n')
+        else:
+            self.logResults.insertPlainText('Minimum not found \nMax number of iterations exceeded\n')
+        self.logResults.insertPlainText("F(x) = " + str(self.meritum(xMin)) + '\n')
+        self.logResults.insertPlainText("Number of cycles = " + str(nIter) + '\n')
+
+        sb = self.logResults.verticalScrollBar()
+        sb.setValue(sb.maximum())
 
 
 
