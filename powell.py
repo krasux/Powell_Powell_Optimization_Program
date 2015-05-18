@@ -11,9 +11,8 @@ from goldSearch import *
 import math
 
 def powell(F, x, bracketStep=0.001, goldenSearchWindow=0.001,
-           epsilon=1.0e-6, iterations=100, bracketing=True):
+           epsilon=1.0e-6, iterations=100, bracketing=True, epsilonGoldenSearch=1.0e-6):
 
-    print("Bracketing", bracketing)
     def f(s):
         return F(x + s*v)    # F in direction of v
 
@@ -32,7 +31,7 @@ def powell(F, x, bracketStep=0.001, goldenSearchWindow=0.001,
             else:
                 a = -goldenSearchWindow
                 b = goldenSearchWindow
-            s, fMin = search(f, a, b)
+            s, fMin = search(f, a, b, tol=epsilonGoldenSearch)
             df[i] = fOld - fMin
             fOld = fMin
             x = x + s*v
@@ -43,18 +42,16 @@ def powell(F, x, bracketStep=0.001, goldenSearchWindow=0.001,
         else:
             a = -goldenSearchWindow
             b = goldenSearchWindow
-        s, fLast = search(f, a, b)
+        s, fLast = search(f, a, b, tol=epsilonGoldenSearch)
         x = x + s*v
 
       # Check for convergence
         if abs(F(x)-fOld) < epsilon:
             result = [float(i) for i in x]
-            print("Różnice między wartościami są już małe!")
             return result, j+1, True
 
         if math.sqrt(np.dot(x-xOld, x-xOld)/n) < epsilon:
             result = [float(i) for i in x]
-            print("Bo roznica mała!")
             return result, j+1, True
 
 

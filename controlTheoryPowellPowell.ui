@@ -434,30 +434,17 @@
                 <enum>QFrame::Raised</enum>
                </property>
                <layout class="QGridLayout" name="gridLayout_7">
-                <item row="1" column="0" rowspan="2">
-                 <widget class="QLabel" name="lblPowellConstrParamM1">
-                  <property name="text">
-                   <string>m1</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="lblPowellConstrParamCMin">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>cMin</string>
-                  </property>
-                 </widget>
-                </item>
                 <item row="3" column="0">
                  <widget class="QLabel" name="lblPowellConstrParamM1_2">
                   <property name="text">
                    <string>m2</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0" rowspan="2">
+                 <widget class="QLabel" name="lblPowellConstrParamM1">
+                  <property name="text">
+                   <string>m1</string>
                   </property>
                  </widget>
                 </item>
@@ -477,6 +464,19 @@
                   </property>
                  </widget>
                 </item>
+                <item row="0" column="0">
+                 <widget class="QLabel" name="lblPowellConstrParamCMin">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>cMin</string>
+                  </property>
+                 </widget>
+                </item>
                 <item row="1" column="2">
                  <widget class="QDoubleSpinBox" name="dSBM1">
                   <property name="minimumSize">
@@ -486,7 +486,7 @@
                    </size>
                   </property>
                   <property name="decimals">
-                   <number>3</number>
+                   <number>4</number>
                   </property>
                   <property name="maximum">
                    <double>1.000000000000000</double>
@@ -499,31 +499,6 @@
                   </property>
                  </widget>
                 </item>
-                <item row="3" column="2">
-                 <widget class="QDoubleSpinBox" name="dSBM2">
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                  <property name="decimals">
-                   <number>1</number>
-                  </property>
-                  <property name="minimum">
-                   <double>1.000000000000000</double>
-                  </property>
-                  <property name="maximum">
-                   <double>100.000000000000000</double>
-                  </property>
-                  <property name="singleStep">
-                   <double>0.100000000000000</double>
-                  </property>
-                  <property name="value">
-                   <double>10.000000000000000</double>
-                  </property>
-                 </widget>
-                </item>
                 <item row="0" column="2">
                  <widget class="QDoubleSpinBox" name="dSBcMin">
                   <property name="minimumSize">
@@ -533,16 +508,16 @@
                    </size>
                   </property>
                   <property name="decimals">
-                   <number>3</number>
+                   <number>4</number>
                   </property>
                   <property name="minimum">
-                   <double>0.001000000000000</double>
+                   <double>0.000100000000000</double>
                   </property>
                   <property name="maximum">
                    <double>0.200000000000000</double>
                   </property>
                   <property name="singleStep">
-                   <double>0.001000000000000</double>
+                   <double>0.000100000000000</double>
                   </property>
                   <property name="value">
                    <double>0.100000000000000</double>
@@ -565,6 +540,31 @@
                   </property>
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="2">
+                 <widget class="QDoubleSpinBox" name="dSBM2">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                  <property name="decimals">
+                   <number>3</number>
+                  </property>
+                  <property name="minimum">
+                   <double>1.000000000000000</double>
+                  </property>
+                  <property name="maximum">
+                   <double>100.000000000000000</double>
+                  </property>
+                  <property name="singleStep">
+                   <double>0.001000000000000</double>
+                  </property>
+                  <property name="value">
+                   <double>10.000000000000000</double>
                   </property>
                  </widget>
                 </item>
@@ -821,10 +821,13 @@
                 <double>0.001000000000000</double>
                </property>
                <property name="maximum">
-                <double>999.999000000000024</double>
+                <double>999999.000000000000000</double>
                </property>
                <property name="singleStep">
                 <double>0.001000000000000</double>
+               </property>
+               <property name="value">
+                <double>1.000000000000000</double>
                </property>
               </widget>
              </item>
@@ -834,16 +837,16 @@
                 <number>3</number>
                </property>
                <property name="minimum">
-                <double>-999.999000000000024</double>
+                <double>0.000000000000000</double>
                </property>
                <property name="maximum">
-                <double>0.000000000000000</double>
+                <double>999.999000000000024</double>
                </property>
                <property name="singleStep">
                 <double>0.001000000000000</double>
                </property>
                <property name="value">
-                <double>-5.000000000000000</double>
+                <double>0.000000000000000</double>
                </property>
               </widget>
              </item>
@@ -1007,10 +1010,13 @@
                 <double>0.001000000000000</double>
                </property>
                <property name="maximum">
-                <double>999.999000000000024</double>
+                <double>999999.000000000000000</double>
                </property>
                <property name="singleStep">
                 <double>0.001000000000000</double>
+               </property>
+               <property name="value">
+                <double>1.000000000000000</double>
                </property>
               </widget>
              </item>
@@ -1023,10 +1029,13 @@
                 <double>0.001000000000000</double>
                </property>
                <property name="maximum">
-                <double>999.999000000000024</double>
+                <double>999999.000000000000000</double>
                </property>
                <property name="singleStep">
                 <double>0.001000000000000</double>
+               </property>
+               <property name="value">
+                <double>1.000000000000000</double>
                </property>
               </widget>
              </item>
@@ -1039,10 +1048,13 @@
                 <double>0.001000000000000</double>
                </property>
                <property name="maximum">
-                <double>999.999000000000024</double>
+                <double>999999.000000000000000</double>
                </property>
                <property name="singleStep">
                 <double>0.001000000000000</double>
+               </property>
+               <property name="value">
+                <double>1.000000000000000</double>
                </property>
               </widget>
              </item>
@@ -1055,10 +1067,13 @@
                 <double>0.001000000000000</double>
                </property>
                <property name="maximum">
-                <double>999.999000000000024</double>
+                <double>999999.000000000000000</double>
                </property>
                <property name="singleStep">
                 <double>0.001000000000000</double>
+               </property>
+               <property name="value">
+                <double>1.000000000000000</double>
                </property>
               </widget>
              </item>
@@ -1068,16 +1083,16 @@
                 <number>3</number>
                </property>
                <property name="minimum">
-                <double>-999.999000000000024</double>
+                <double>0.000000000000000</double>
                </property>
                <property name="maximum">
-                <double>0.000000000000000</double>
+                <double>999.999000000000024</double>
                </property>
                <property name="singleStep">
                 <double>0.001000000000000</double>
                </property>
                <property name="value">
-                <double>-5.000000000000000</double>
+                <double>0.000000000000000</double>
                </property>
               </widget>
              </item>
@@ -1087,16 +1102,16 @@
                 <number>3</number>
                </property>
                <property name="minimum">
-                <double>-999.999000000000024</double>
+                <double>0.000000000000000</double>
                </property>
                <property name="maximum">
-                <double>0.000000000000000</double>
+                <double>999.999000000000024</double>
                </property>
                <property name="singleStep">
                 <double>0.001000000000000</double>
                </property>
                <property name="value">
-                <double>-5.000000000000000</double>
+                <double>0.000000000000000</double>
                </property>
               </widget>
              </item>
@@ -1106,16 +1121,16 @@
                 <number>3</number>
                </property>
                <property name="minimum">
-                <double>-999.999000000000024</double>
+                <double>0.000000000000000</double>
                </property>
                <property name="maximum">
-                <double>0.000000000000000</double>
+                <double>999.999000000000024</double>
                </property>
                <property name="singleStep">
                 <double>0.001000000000000</double>
                </property>
                <property name="value">
-                <double>-5.000000000000000</double>
+                <double>0.000000000000000</double>
                </property>
               </widget>
              </item>
@@ -1125,16 +1140,16 @@
                 <number>3</number>
                </property>
                <property name="minimum">
-                <double>-999.999000000000024</double>
+                <double>0.000000000000000</double>
                </property>
                <property name="maximum">
-                <double>0.000000000000000</double>
+                <double>999.999000000000024</double>
                </property>
                <property name="singleStep">
                 <double>0.001000000000000</double>
                </property>
                <property name="value">
-                <double>-5.000000000000000</double>
+                <double>0.000000000000000</double>
                </property>
               </widget>
              </item>
@@ -1325,13 +1340,6 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="0" column="0">
-                  <widget class="QLabel" name="lblBracketStep">
-                   <property name="text">
-                    <string>Bracket step (h):</string>
-                   </property>
-                  </widget>
-                 </item>
                  <item row="0" column="1">
                   <widget class="QDoubleSpinBox" name="dsbBracketStep">
                    <property name="decimals">
@@ -1346,6 +1354,104 @@
                    <property name="singleStep">
                     <double>0.000100000000000</double>
                    </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="lblBracketStep">
+                   <property name="text">
+                    <string>Bracket step (h):</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="0">
+                  <widget class="QLabel" name="lblGoldenSearchEpsilon">
+                   <property name="text">
+                    <string>Golden search epsilon:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="1">
+                  <widget class="QComboBox" name="cmbGoldenSearchEpsilon">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>15</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>15</height>
+                    </size>
+                   </property>
+                   <property name="editable">
+                    <bool>true</bool>
+                   </property>
+                   <item>
+                    <property name="text">
+                     <string>1e-3</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>1e-4</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>1e-5</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>1e-6</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>1e-7</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>1e-8</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>1e-9</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>1e-10</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>1e-11</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>1e-12</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>1e-13</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>1e-14</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>1e-15</string>
+                    </property>
+                   </item>
                   </widget>
                  </item>
                 </layout>

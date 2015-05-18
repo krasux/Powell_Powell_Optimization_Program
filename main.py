@@ -1,5 +1,6 @@
 import sys
 from powell import *
+from powellConstraints import *
 from numpy import array
 
 from PyQt5.QtWidgets import (QMainWindow, QWidget, QToolTip, QPushButton, QApplication)
@@ -16,19 +17,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     thetas = []
     xStart = 0
     maxIterations = 0
-    epsilonPowell = 10e-6
+    epsilonPowell = 1e-6
     # Parameters for powell with constraints
     m1 = 0.250
     m2 = 10
-    cMin = 0.2
+    cMin = 0.1
     # Parameters and options for searching in direction
     bracketStep = 0.0001
     goldenSearchWindow = 0.0001
     bracketing = True
-
-
-
-
+    epsilonGoldenSearch = 1e-9
 
     def __init__(self):
         super(MainWindow, self).__init__()
@@ -40,6 +38,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.btnSearch.setToolTip("Click to start the program \u03B4 \u03B8")
         self.cmbVariables.setCurrentIndex(1)
         self.cmbPowellEpsilon.setCurrentIndex(3)
+        self.cmbGoldenSearchEpsilon.setCurrentIndex(6)
 
         # Set lbl for sigma (\u03B4) and theta (\u03B8)
         self.lblConstrDelta1.setText("\u03B41")
@@ -103,6 +102,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.dsbBracketStep.valueChanged.connect(self.bracketStepChanged)
         self.dsbGoldenSearchWindow.valueChanged.connect(self.goldenSearchWindowChanged)
         self.checkBoxBracketing.stateChanged.connect(self.bracketingOptionChanged)
+        self.cmbGoldenSearchEpsilon.activated.connect(self.goldenSearchEpsilonChanged)
 
         # Set up variables and constrains inputs:
         self.setActiveConstrainInputs(self.numberOfConstraints)
@@ -305,7 +305,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if nbrOfVar > 1:
             self.xStart = [float(i) for i in self.xStart]
 
-
     def maxIterationsChanged(self):
         self.setMaxInterations(int(self.cmbMaxIterations.currentText()))
 
@@ -317,7 +316,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def setPowellEpsilon(self, newEpsilon):
         self.epsilonPowell = newEpsilon
-
 
     # Set and get parameter M1
     def setM1(self, newM1):
@@ -382,6 +380,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def goldenSearchWindowChanged(self):
         self.setGoldenSearchWindow(self.dsbGoldenSearchWindow.value())
 
+    def goldenSearchEpsilonChanged(self):
+        self.setGoldenSearchEpsilon(float(self.cmbGoldenSearchEpsilon.currentText()))
+
+    def setGoldenSearchEpsilon(self, newEpsilon):
+        self.epsilonGoldenSearch = newEpsilon
+        print("New epsilon:", newEpsilon)
+
 
     # Powell algorithm
     def startSearch(self):
@@ -392,9 +397,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.logResults.insertPlainText("Searching for minimum of: " + str(self.cmbObjFun.currentText()) +'\n')
         self.logResults.insertPlainText("Starting x: " + str(self.xStart) + '\n')
 
+        powellConstr(self.meritum, self.xStart, constrains=self.constraints, deltas=self.deltas, thetas=self.thetas,
+                     cMin=self.cMin, m2=self.m2, m1=self.m1)
+
         xMin, nIter, success = powell(self.meritum, self.xStart, epsilon=self.epsilonPowell,
                                       iterations=self.maxIterations, bracketing=self.bracketing,
-                                      bracketStep=self.bracketStep, goldenSearchWindow=self.goldenSearchWindow)
+                                      bracketStep=self.bracketStep, goldenSearchWindow=self.goldenSearchWindow,
+                                      epsilonGoldenSearch=self.epsilonGoldenSearch)
         if success:
             self.logResults.insertPlainText('Minimum found at x: ' + str(xMin) + '\n')
         else:
