@@ -344,14 +344,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     # Set and get parameter cMin
     def setcMin(self, newcMin):
         self.cMin = newcMin
-        self.hSldcMin.setValue(newcMin*1000)
+        self.hSldcMin.setValue(newcMin*1000000)
         self.dSBcMin.setValue(newcMin)
 
     def cMinChangedDSBox(self):
         self.setcMin(self.dSBcMin.value())
 
     def cMinChangedHSld(self):
-        self.setcMin(self.hSldcMin.value()/1000)
+        self.setcMin(self.hSldcMin.value()/1000000)
 
     # Set option for searching in direction
 

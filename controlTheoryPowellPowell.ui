@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1049</width>
-    <height>941</height>
+    <height>1013</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -93,7 +93,17 @@
                </item>
                <item>
                 <property name="text">
-                 <string>100(x2-x1^2)^2+(100-x1)^2</string>
+                 <string>x1^4+x2^4-2x1^2x2-4x1+3</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>(x1^2+x2-11)^2+(x1+x2^2-7)^2</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>x1^4+x2^4-x1^2-x2^2</string>
                 </property>
                </item>
               </widget>
@@ -486,41 +496,16 @@
                    </size>
                   </property>
                   <property name="decimals">
-                   <number>4</number>
+                   <number>6</number>
                   </property>
                   <property name="maximum">
                    <double>1.000000000000000</double>
                   </property>
                   <property name="singleStep">
-                   <double>0.001000000000000</double>
+                   <double>0.000001000000000</double>
                   </property>
                   <property name="value">
                    <double>0.250000000000000</double>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="2">
-                 <widget class="QDoubleSpinBox" name="dSBcMin">
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                  <property name="decimals">
-                   <number>4</number>
-                  </property>
-                  <property name="minimum">
-                   <double>0.000100000000000</double>
-                  </property>
-                  <property name="maximum">
-                   <double>0.200000000000000</double>
-                  </property>
-                  <property name="singleStep">
-                   <double>0.000100000000000</double>
-                  </property>
-                  <property name="value">
-                   <double>0.100000000000000</double>
                   </property>
                  </widget>
                 </item>
@@ -552,7 +537,7 @@
                    </size>
                   </property>
                   <property name="decimals">
-                   <number>3</number>
+                   <number>5</number>
                   </property>
                   <property name="minimum">
                    <double>1.000000000000000</double>
@@ -561,7 +546,7 @@
                    <double>100.000000000000000</double>
                   </property>
                   <property name="singleStep">
-                   <double>0.001000000000000</double>
+                   <double>0.000010000000000</double>
                   </property>
                   <property name="value">
                    <double>10.000000000000000</double>
@@ -570,17 +555,36 @@
                 </item>
                 <item row="0" column="1">
                  <widget class="QSlider" name="hSldcMin">
+                  <property name="minimum">
+                   <number>1</number>
+                  </property>
                   <property name="maximum">
-                   <number>200</number>
+                   <number>1000000</number>
                   </property>
                   <property name="singleStep">
                    <number>1</number>
                   </property>
                   <property name="value">
-                   <number>100</number>
+                   <number>100000</number>
                   </property>
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="2">
+                 <widget class="QLineEdit" name="inputcMin">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>150</width>
+                    <height>16777215</height>
+                   </size>
                   </property>
                  </widget>
                 </item>
