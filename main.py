@@ -95,7 +95,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.hSldM1.valueChanged.connect(self.m1ChangedHSld)
         self.dSBM2.valueChanged.connect(self.m2ChangedDSBox)
         self.hSldM2.valueChanged.connect(self.m2ChangedHSld)
-        self.dSBcMin.valueChanged.connect(self.cMinChangedDSBox)
+        self.inputcMin.editingFinished.connect(self.cMinChangedInputLine)
         self.hSldcMin.valueChanged.connect(self.cMinChangedHSld)
 
         # Connect searching in direction parameters:
@@ -111,6 +111,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setXStart(self.numberOfVariables)
         self.setMaxInterations(int(self.cmbMaxIterations.currentText()))
         self.setPowellEpsilon(float(self.cmbPowellEpsilon.currentText()))
+        self.setcMin(self.cMin)
 
         # Set up states for searching in direction
         self.dsbBracketStep.setDisabled(False)
@@ -344,14 +345,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     # Set and get parameter cMin
     def setcMin(self, newcMin):
         self.cMin = newcMin
-        self.hSldcMin.setValue(newcMin*1000000)
-        self.dSBcMin.setValue(newcMin)
+        a = math.floor(-math.log(-math.log(self.cMin,10)+5)*1000000+5705000)
+        self.hSldcMin.setValue(a)
+        self.inputcMin.setText("%e" % newcMin)
 
-    def cMinChangedDSBox(self):
-        self.setcMin(self.dSBcMin.value())
+    def cMinChangedInputLine(self):
+        self.setcMin(float(self.inputcMin.text()))
 
     def cMinChangedHSld(self):
-        self.setcMin(self.hSldcMin.value()/1000000)
+        # slider przyjmuje wartosci od 0 do 5705000
+        # wartosc musi byc podzielona przez 1e6, aby dostac przedzial 0-5.705
+        a = (5705000 - self.hSldcMin.value())/1000000
+        newcMin = 10**(-math.exp(a)+5)
+        self.setcMin(newcMin)
+
 
     # Set option for searching in direction
 
@@ -398,7 +405,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.logResults.insertPlainText("Starting x: " + str(self.xStart) + '\n')
 
         powellConstr(self.meritum, self.xStart, constrains=self.constraints, deltas=self.deltas, thetas=self.thetas,
-                     cMin=self.cMin, m2=self.m2, m1=self.m1)
+                     cMin=self.cMin, m2=self.m2, m1=self.m1, iterations=self.maxIterations)
 
         xMin, nIter, success = powell(self.meritum, self.xStart, epsilon=self.epsilonPowell,
                                       iterations=self.maxIterations, bracketing=self.bracketing,
