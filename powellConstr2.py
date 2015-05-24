@@ -1,9 +1,22 @@
 from powell import *
 
-def powellConstr(F, x0, constrains=[], deltas=[], thetas=[], cMin=0.01, iterations=100, m2=10, m1=0.25):
+def powellConstr(F, x0, constrains=[], deltas=[], thetas=[], cMin=0.01, iterations=100, m2=10, m1=0.25,
+                 bracketStep=0.001, goldenSearchWindow=0.001, epsilon=1.0e-6, bracketing=True, epsilonGoldenSearch=1.0e-6):
 
     print("Number of constraints:", len(constrains))
+    #--------------------------------------------------------------------------------#
+    # TUTAJ BEZ OGRANICZEN POLICZY
+    if len(constrains) == 0:
+        print("Nie ma ograniczen!")
+        x0, nIter, success = powell(F, x0, epsilon=epsilon, iterations=iterations, bracketing=bracketing,
+                                      bracketStep=bracketStep, goldenSearchWindow=goldenSearchWindow,
+                                      epsilonGoldenSearch=epsilonGoldenSearch)
+        print("Pkt minimum:", x0)
+        print("F(x):", F(x0))
+        return x0
 
+    #--------------------------------------------------------------------------------#
+    # WPROWADZANIE OGRANICZEN
     c = 0.01
 
     locThetas = []

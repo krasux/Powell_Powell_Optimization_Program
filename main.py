@@ -1,6 +1,6 @@
 import sys
 from powell import *
-from powellConstraints import *
+from powellConstr2 import *
 from numpy import array
 
 from PyQt5.QtWidgets import (QMainWindow, QWidget, QToolTip, QPushButton, QApplication)
@@ -397,15 +397,23 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     # Powell algorithm
     def startSearch(self):
-        self.statusBar().showMessage("Searching for minimum of: " + str(self.cmbObjFun.currentText())
-                                     + " With xStart: " + str(self.xStart))
+        xMin = powellConstr(self.meritum, self.xStart, constrains=self.constraints, deltas=self.deltas, thetas=self.thetas,
+                     cMin=self.cMin, m2=self.m2, m1=self.m1, epsilon=self.epsilonPowell,
+                                      iterations=self.maxIterations, bracketing=self.bracketing,
+                                      bracketStep=self.bracketStep, goldenSearchWindow=self.goldenSearchWindow,
+                                      epsilonGoldenSearch=self.epsilonGoldenSearch)
 
         self.logResults.insertPlainText('_'*80 + '\n')
         self.logResults.insertPlainText("Searching for minimum of: " + str(self.cmbObjFun.currentText()) +'\n')
         self.logResults.insertPlainText("Starting x: " + str(self.xStart) + '\n')
+        self.logResults.insertPlainText("Nowa metoda z ograniczeniami" + '\n')
+        self.logResults.insertPlainText("F(x) = " + str(self.meritum(xMin)) + '\n')
 
-        powellConstr(self.meritum, self.xStart, constrains=self.constraints, deltas=self.deltas, thetas=self.thetas,
-                     cMin=self.cMin, m2=self.m2, m1=self.m1, iterations=self.maxIterations)
+        self.statusBar().showMessage("Searching for minimum of: " + str(self.cmbObjFun.currentText())
+                                     + " With xStart: " + str(self.xStart))
+        self.logResults.insertPlainText('_'*80 + '\n')
+        self.logResults.insertPlainText("Searching for minimum of: " + str(self.cmbObjFun.currentText()) +'\n')
+        self.logResults.insertPlainText("Starting x: " + str(self.xStart) + '\n')
 
         xMin, nIter, success = powell(self.meritum, self.xStart, epsilon=self.epsilonPowell,
                                       iterations=self.maxIterations, bracketing=self.bracketing,
