@@ -3,7 +3,23 @@ from powell import *
 def powellConstr(F, x0, constrains=[], deltas=[], thetas=[], cMin=0.01, iterations=100, m2=10, m1=0.25,
                  bracketStep=0.001, goldenSearchWindow=0.001, epsilon=1.0e-6, bracketing=True, epsilonGoldenSearch=1.0e-6):
 
-    print("Number of constraints:", len(constrains))
+    x0list = []
+    locThetas = []
+    locDeltas = []
+    c0 = 1e6
+
+    for theta in thetas:
+        locThetas.append(theta)
+
+    for delta in deltas:
+        locDeltas.append(delta)
+
+    def H(sum):
+        if sum > 0:
+            return 1
+        if sum <= 0:
+            return 0
+
     #--------------------------------------------------------------------------------#
     # TUTAJ BEZ OGRANICZEN POLICZY
     if len(constrains) == 0:
@@ -13,35 +29,19 @@ def powellConstr(F, x0, constrains=[], deltas=[], thetas=[], cMin=0.01, iteratio
                                       epsilonGoldenSearch=epsilonGoldenSearch)
         print("Pkt minimum:", x0)
         print("F(x):", F(x0))
-        return x0
+        x0list.append(x0)
+        return x0list
 
     #--------------------------------------------------------------------------------#
     # WPROWADZANIE OGRANICZEN
     c = 0.01
+    sixStep = False
 
-    locThetas = []
-    locDeltas = []
-
-    for theta in thetas:
-        locThetas.append(theta)
-
-    for delta in deltas:
-        locDeltas.append(delta)
-
-    print("Deltas:", deltas)
-    print("Thetas:", thetas)
-
-    def H(sum):
-        if sum > 0:
-            return 1
-        if sum <= 0:
-            return 0
-
-
-    for j in range(iterations):    # Allow for 100 cycles as default:
+    for k in range(iterations):    # Allow for 100 cycles as default:
         print("_"*80)
-        print("Step: ", j)
+        print("Step: ", k)
         print("Deltas:", locDeltas)
+        print("Thetas:", locThetas)
         def sumOfConstr(x):
             value = 0
             for i in range(len(constrains)):
@@ -53,7 +53,8 @@ def powellConstr(F, x0, constrains=[], deltas=[], thetas=[], cMin=0.01, iteratio
 
         # 2 Dokonaj minimalizacji funkcji oraz uzyskany pkt ekstremalny podstaw w miejsce x0, a ponadto c w miejsce c0
         x0, nIter, success = powell(f, x0)
-        print("x0 w trakcie:", x0)
+        x0list.append(x0)
+        # print("x0 w trakcie:", x0)
         c0 = c
 
         # 3 Oblicz w punkcie ekstremalnym wartoœæ ograniczeñ gi(x) dla i=1,...,m oraz now¹ wartoœæ c w myœl zasady
@@ -73,15 +74,47 @@ def powellConstr(F, x0, constrains=[], deltas=[], thetas=[], cMin=0.01, iteratio
             print('zostalo spelnione kryterium na "minimum" tzn. czy c<cMi')
             print(f(x0))
             print ("Xmin:", x0)
-            return x0
+            return x0list
         # Jeœli tak to zakoñcz dzia³anie procedury, natomiast jeœli nie to kolejne kroki.
 
+        # 5 Zbadaj czy po minimalizacji (krok 2) nastapilo zmniejszenie naruszenia ograniczen,
+        # tzn. czy c<c0. Jesli tak, to przejdz do wykonania kroku (8),
+        if c < c0:
+            # Tutaj jest robiony krok 8
+            # 8 Jesli k=0 lub w poprzedniej iteracji byl krok 6 to
+            if k == 0 or sixStep == True:
+                # To jest krok 8a, zmien wartosci theta w mysl zasady:
+                for i in range(len(locThetas)):
+                    locThetas[i] = min(constrains[i](x0) + locThetas[i], 0)
+                sixStep = False # nie bylo 6 kroku w tej iteracji
+                continue
+            else:
+                # Krok 8b
+                if c <= m1*c0:
+                    # Wykonaj krok 8a, zmien wartosci theta w mysl zasady:
+                    for i in range(len(locThetas)):
+                        locThetas[i] = min(constrains[i](x0) + locThetas[i], 0)
+                else:
+                    # Wykonaj krok 6:
+                    sixStep = True
+                    modifiedIndexes = []
+                    for i in range(len(locDeltas)):
+                        if (abs((constrains[i](x0)) > m1*c0) and (constrains[i](x0) + locThetas[i] > 0)):
+                            modifiedIndexes.append(i)
+                    for i in modifiedIndexes:
+                        locDeltas[i] *= m2
+                        locThetas[i] /= m2
+                    continue
+        # Natomiast w przecinwym razie podstaw na miejsce c jego wartosc przed minimalizacja, tzn c=c0
+        else:
+            c = c0
+
+        # 6 Zmien wartosc parametriw delta i theta wedlug reguly: delta = m2*delta, theta = theta/m2
         modifiedIndexes = []
-        for i in range(len(deltas)):
+        for i in range(len(locDeltas)):
             if (abs((constrains[i](x0)) > m1*c0) and (constrains[i](x0) + locThetas[i] > 0)):
                 modifiedIndexes.append(i)
 
         for i in modifiedIndexes:
             locDeltas[i] *= m2
             locThetas[i] /= m2
-

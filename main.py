@@ -8,6 +8,14 @@ from PyQt5.QtGui import QFont
 from program_ui import Ui_MainWindow
 from funStrUtils import str2fun
 
+from mpl_toolkits.mplot3d import Axes3D
+from matplotlib import cm
+from matplotlib.ticker import LinearLocator, FormatStrFormatter
+import matplotlib.pyplot as plt
+import numpy as np
+
+
+
 class MainWindow(QMainWindow, Ui_MainWindow):
     numberOfConstraints = 0
     numberOfVariables = 2
@@ -119,6 +127,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.dsbGoldenSearchWindow.setDisabled(True)
         self.lblGoldenSearchWindow.setDisabled(True)
 
+        # Connect plot
+        self.btnPlot.clicked.connect(self.plotGraph)
         # Show the window at the end
         self.show()
 
@@ -394,10 +404,31 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.epsilonGoldenSearch = newEpsilon
         print("New epsilon:", newEpsilon)
 
+    def plotGraph(self):
+        fig = plt.figure()
+        ax = fig.gca(projection='3d')
+        X = np.arange(-5, 5, 0.25)
+        print(X)
+        Y = np.arange(-5, 5, 0.25)
+        X, Y = np.meshgrid(X, Y)
+        print(X)
+        R = np.sqrt(X**2 + Y**2)
+        Z = np.sin(R)
+        surf = ax.plot_surface(X, Y, Z, rstride=1, cstride=1, cmap=cm.coolwarm,
+                linewidth=0, antialiased=False)
+        ax.set_zlim(-1.01, 1.01)
+
+        ax.zaxis.set_major_locator(LinearLocator(10))
+        ax.zaxis.set_major_formatter(FormatStrFormatter('%.02f'))
+
+        fig.colorbar(surf, shrink=0.5, aspect=5)
+
+        plt.show()
+
 
     # Powell algorithm
     def startSearch(self):
-        xMin = powellConstr(self.meritum, self.xStart, constrains=self.constraints, deltas=self.deltas, thetas=self.thetas,
+        x0list = powellConstr(self.meritum, self.xStart, constrains=self.constraints, deltas=self.deltas, thetas=self.thetas,
                      cMin=self.cMin, m2=self.m2, m1=self.m1, epsilon=self.epsilonPowell,
                                       iterations=self.maxIterations, bracketing=self.bracketing,
                                       bracketStep=self.bracketStep, goldenSearchWindow=self.goldenSearchWindow,
@@ -406,25 +437,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.logResults.insertPlainText('_'*80 + '\n')
         self.logResults.insertPlainText("Searching for minimum of: " + str(self.cmbObjFun.currentText()) +'\n')
         self.logResults.insertPlainText("Starting x: " + str(self.xStart) + '\n')
-        self.logResults.insertPlainText("Nowa metoda z ograniczeniami" + '\n')
-        self.logResults.insertPlainText("F(x) = " + str(self.meritum(xMin)) + '\n')
+        for i in range(len(x0list)):
+            self.logResults.insertPlainText('_'*40 + '\n')
+            self.logResults.insertPlainText("Minimum in step " + str(i) + ":\n")
+            self.logResults.insertPlainText('X: ' + str(x0list[i]) + '\n')
+            self.logResults.insertPlainText("F(x) = " + str(self.meritum(x0list[i])) + '\n')
 
-        self.statusBar().showMessage("Searching for minimum of: " + str(self.cmbObjFun.currentText())
-                                     + " With xStart: " + str(self.xStart))
-        self.logResults.insertPlainText('_'*80 + '\n')
-        self.logResults.insertPlainText("Searching for minimum of: " + str(self.cmbObjFun.currentText()) +'\n')
-        self.logResults.insertPlainText("Starting x: " + str(self.xStart) + '\n')
-
-        xMin, nIter, success = powell(self.meritum, self.xStart, epsilon=self.epsilonPowell,
-                                      iterations=self.maxIterations, bracketing=self.bracketing,
-                                      bracketStep=self.bracketStep, goldenSearchWindow=self.goldenSearchWindow,
-                                      epsilonGoldenSearch=self.epsilonGoldenSearch)
-        if success:
-            self.logResults.insertPlainText('Minimum found at x: ' + str(xMin) + '\n')
-        else:
-            self.logResults.insertPlainText('Minimum not found \nMax number of iterations exceeded\n')
-        self.logResults.insertPlainText("F(x) = " + str(self.meritum(xMin)) + '\n')
-        self.logResults.insertPlainText("Number of cycles = " + str(nIter) + '\n')
 
         sb = self.logResults.verticalScrollBar()
         sb.setValue(sb.maximum())

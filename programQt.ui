@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1049</width>
-    <height>1013</height>
+    <width>1091</width>
+    <height>839</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -27,6 +27,12 @@
        <enum>QFrame::Raised</enum>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
        <item>
         <widget class="QLabel" name="lblProgramTitle">
          <property name="text">
@@ -43,6 +49,12 @@
           <enum>QFrame::Raised</enum>
          </property>
          <layout class="QGridLayout" name="gridLayout_2">
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
           <item row="0" column="2">
            <widget class="QFrame" name="verticalFrame">
             <property name="sizePolicy">
@@ -52,6 +64,12 @@
              </sizepolicy>
             </property>
             <layout class="QGridLayout" name="gridLayout_3">
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
              <item row="0" column="1">
               <widget class="QLabel" name="lblObjFunc">
                <property name="sizePolicy">
@@ -139,6 +157,12 @@
              <enum>QFrame::Raised</enum>
             </property>
             <layout class="QGridLayout" name="gridLayout">
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
              <item row="0" column="0">
               <widget class="QLabel" name="lblVariables">
                <property name="text">
@@ -278,8 +302,17 @@
         <string>Parameters</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout">
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
         <item>
          <layout class="QGridLayout" name="parameters">
+          <property name="spacing">
+           <number>1</number>
+          </property>
           <item row="1" column="0">
            <widget class="QGroupBox" name="gbParamPowell">
             <property name="font">
@@ -291,6 +324,12 @@
              <string>Parameters for Powell methods:</string>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_4">
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
              <item>
               <widget class="QLabel" name="label_5">
                <property name="text">
@@ -307,6 +346,12 @@
                 <enum>QFrame::Raised</enum>
                </property>
                <layout class="QGridLayout" name="gridLayout_6">
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
                 <item row="0" column="0">
                  <widget class="QLabel" name="lblMaxIterations">
                   <property name="sizePolicy">
@@ -429,6 +474,19 @@
               </widget>
              </item>
              <item>
+              <spacer name="verticalSpacer_2">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
               <widget class="QLabel" name="label_6">
                <property name="text">
                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Parameters for Powell method with constraints:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -444,6 +502,12 @@
                 <enum>QFrame::Raised</enum>
                </property>
                <layout class="QGridLayout" name="gridLayout_7">
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>11</number>
+                </property>
                 <item row="3" column="0">
                  <widget class="QLabel" name="lblPowellConstrParamM1_2">
                   <property name="text">
@@ -611,6 +675,9 @@
              <property name="sizeConstraint">
               <enum>QLayout::SetDefaultConstraint</enum>
              </property>
+             <property name="verticalSpacing">
+              <number>1</number>
+             </property>
              <item row="4" column="0">
               <widget class="QLabel" name="lblConstraint5">
                <property name="text">
@@ -767,6 +834,9 @@
              <string>Constraints parameters:</string>
             </property>
             <layout class="QGridLayout" name="gridLayout_8">
+             <property name="verticalSpacing">
+              <number>1</number>
+             </property>
              <item row="0" column="4">
               <spacer name="horizontalSpacer_4">
                <property name="orientation">
@@ -1194,13 +1264,15 @@
                <property name="sizeConstraint">
                 <enum>QLayout::SetMinAndMaxSize</enum>
                </property>
-               <item row="4" column="0">
-                <widget class="QLabel" name="lbX0_4">
-                 <property name="text">
-                  <string>x0_4</string>
-                 </property>
-                </widget>
-               </item>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <property name="verticalSpacing">
+                <number>1</number>
+               </property>
                <item row="0" column="0">
                 <widget class="QLabel" name="lbX0_1">
                  <property name="text">
@@ -1208,10 +1280,10 @@
                  </property>
                 </widget>
                </item>
-               <item row="3" column="0">
-                <widget class="QLabel" name="lbX0_3">
+               <item row="4" column="0">
+                <widget class="QLabel" name="lbX0_4">
                  <property name="text">
-                  <string>x0_3:</string>
+                  <string>x0_4</string>
                  </property>
                 </widget>
                </item>
@@ -1228,34 +1300,10 @@
                  </property>
                 </widget>
                </item>
-               <item row="2" column="0">
-                <widget class="QLabel" name="lbX0_2">
+               <item row="3" column="0">
+                <widget class="QLabel" name="lbX0_3">
                  <property name="text">
-                  <string>x0_2:</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="1">
-                <widget class="QLineEdit" name="inputX0_1">
-                 <property name="font">
-                  <font>
-                   <pointsize>10</pointsize>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>0</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="1">
-                <widget class="QLineEdit" name="inputX0_2">
-                 <property name="font">
-                  <font>
-                   <pointsize>10</pointsize>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>0</string>
+                  <string>x0_3:</string>
                  </property>
                 </widget>
                </item>
@@ -1283,8 +1331,39 @@
                  </property>
                 </widget>
                </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="lbX0_2">
+                 <property name="text">
+                  <string>x0_2:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QLineEdit" name="inputX0_2">
+                 <property name="font">
+                  <font>
+                   <pointsize>10</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>0</string>
+                 </property>
+                </widget>
+               </item>
                <item row="3" column="1">
                 <widget class="QLineEdit" name="inputX0_3">
+                 <property name="font">
+                  <font>
+                   <pointsize>10</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>0</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QLineEdit" name="inputX0_1">
                  <property name="font">
                   <font>
                    <pointsize>10</pointsize>
@@ -1299,6 +1378,19 @@
              </widget>
             </item>
             <item>
+             <spacer name="verticalSpacer">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
              <widget class="QGroupBox" name="gbSearchInDirection">
               <property name="font">
                <font>
@@ -1309,6 +1401,12 @@
                <string>Searching in direction (Golden search):</string>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_9">
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>11</number>
+               </property>
                <item>
                 <widget class="QCheckBox" name="checkBoxBracketing">
                  <property name="text">
@@ -1321,6 +1419,9 @@
                </item>
                <item>
                 <layout class="QGridLayout" name="gridLayout_9">
+                 <property name="verticalSpacing">
+                  <number>1</number>
+                 </property>
                  <item row="1" column="0">
                   <widget class="QLabel" name="lblGoldenSearchWindow">
                    <property name="text">
@@ -1471,7 +1572,7 @@
          </layout>
         </item>
         <item>
-         <widget class="QFrame" name="frameParamRight">
+         <widget class="QFrame" name="frmButtons">
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
           </property>
@@ -1479,36 +1580,30 @@
            <enum>QFrame::Raised</enum>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout">
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
            <item>
-            <widget class="QFrame" name="frame_2">
-             <property name="frameShape">
-              <enum>QFrame::StyledPanel</enum>
+            <spacer name="horizontalSpacer_2">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
              </property>
-             <property name="frameShadow">
-              <enum>QFrame::Raised</enum>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
              </property>
-             <layout class="QHBoxLayout" name="horizontalLayout_2">
-              <item>
-               <spacer name="horizontalSpacer_2">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="QPushButton" name="btnSearch">
-                <property name="text">
-                 <string>Search</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QPushButton" name="btnSearch">
+             <property name="text">
+              <string>Search</string>
+             </property>
             </widget>
            </item>
           </layout>
@@ -1649,7 +1744,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1049</width>
+     <width>1091</width>
      <height>26</height>
     </rect>
    </property>
