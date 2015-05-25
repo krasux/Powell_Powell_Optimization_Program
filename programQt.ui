@@ -1618,6 +1618,12 @@
        <layout class="QHBoxLayout" name="horizontalLayout_4">
         <item>
          <widget class="QFrame" name="frame_4">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="frameShape">
            <enum>QFrame::Box</enum>
           </property>
@@ -1700,6 +1706,12 @@
         </item>
         <item>
          <widget class="QFrame" name="frame_5">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="frameShape">
            <enum>QFrame::Box</enum>
           </property>
@@ -1711,7 +1723,137 @@
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_5">
            <item>
-            <spacer name="verticalSpacer_4">
+            <widget class="QGroupBox" name="groupBox">
+             <property name="font">
+              <font>
+               <pointsize>12</pointsize>
+              </font>
+             </property>
+             <property name="title">
+              <string>Plot parameters</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_10">
+              <item row="2" column="0">
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>x1 range:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="2">
+               <widget class="QLineEdit" name="inputX2RangeR">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>5</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>100</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>5</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="2">
+               <widget class="QLineEdit" name="inputX1RangeR">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>100</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>5</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="0">
+               <widget class="QLabel" name="label_2">
+                <property name="text">
+                 <string>x2 range:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="1">
+               <widget class="QLineEdit" name="inputX2RangeL">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>100</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>-5</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QLineEdit" name="inputX1RangeL">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>100</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>-5</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="1">
+               <widget class="QLineEdit" name="inputResolution">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>100</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>100</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="0">
+               <widget class="QLabel" name="label_3">
+                <property name="text">
+                 <string>Resolution:</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <spacer name="verticalSpacer_3">
              <property name="orientation">
               <enum>Qt::Vertical</enum>
              </property>
@@ -1751,6 +1893,54 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <tabstops>
+  <tabstop>cmbVariables</tabstop>
+  <tabstop>cmbConstraints</tabstop>
+  <tabstop>cmbObjFun</tabstop>
+  <tabstop>tabBox</tabstop>
+  <tabstop>inputConstraint1</tabstop>
+  <tabstop>inputConstraint2</tabstop>
+  <tabstop>inputConstraint3</tabstop>
+  <tabstop>inputConstraint4</tabstop>
+  <tabstop>inputConstraint5</tabstop>
+  <tabstop>dsbConstrDelta1</tabstop>
+  <tabstop>dsbConstrDelta2</tabstop>
+  <tabstop>dsbConstrDelta3</tabstop>
+  <tabstop>dsbConstrDelta4</tabstop>
+  <tabstop>dsbConstrDelta5</tabstop>
+  <tabstop>dsbConstrTheta1</tabstop>
+  <tabstop>dsbConstrTheta2</tabstop>
+  <tabstop>dsbConstrTheta3</tabstop>
+  <tabstop>dsbConstrTheta4</tabstop>
+  <tabstop>dsbConstrTheta5</tabstop>
+  <tabstop>cmbMaxIterations</tabstop>
+  <tabstop>cmbPowellEpsilon</tabstop>
+  <tabstop>hSldcMin</tabstop>
+  <tabstop>inputcMin</tabstop>
+  <tabstop>hSldM1</tabstop>
+  <tabstop>dSBM1</tabstop>
+  <tabstop>hSldM2</tabstop>
+  <tabstop>dSBM2</tabstop>
+  <tabstop>inputX0_1</tabstop>
+  <tabstop>inputX0_2</tabstop>
+  <tabstop>inputX0_3</tabstop>
+  <tabstop>inputX0_4</tabstop>
+  <tabstop>inputX0_5</tabstop>
+  <tabstop>checkBoxBracketing</tabstop>
+  <tabstop>dsbBracketStep</tabstop>
+  <tabstop>dsbGoldenSearchWindow</tabstop>
+  <tabstop>cmbGoldenSearchEpsilon</tabstop>
+  <tabstop>btnSearch</tabstop>
+  <tabstop>btnClearLog</tabstop>
+  <tabstop>btnSearch2</tabstop>
+  <tabstop>logResults</tabstop>
+  <tabstop>inputX1RangeL</tabstop>
+  <tabstop>inputX1RangeR</tabstop>
+  <tabstop>inputX2RangeL</tabstop>
+  <tabstop>inputX2RangeR</tabstop>
+  <tabstop>inputResolution</tabstop>
+  <tabstop>btnPlot</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

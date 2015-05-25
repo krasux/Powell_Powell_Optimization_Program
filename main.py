@@ -26,6 +26,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     xStart = 0
     maxIterations = 0
     epsilonPowell = 1e-6
+    plotRanges = [[-5, 5], [-5, 5]]
+    plotResolution = 100
     # Parameters for powell with constraints
     m1 = 0.250
     m2 = 10
@@ -127,8 +129,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.dsbGoldenSearchWindow.setDisabled(True)
         self.lblGoldenSearchWindow.setDisabled(True)
 
-        # Connect plot
-        self.btnPlot.clicked.connect(self.plot3d)
+        # Connect plot and parameters inputs
+        self.btnPlot.clicked.connect(self.startPlot)
+        self.inputResolution.editingFinished.connect(self.plotResolutionChanged)
+        self.inputX1RangeL.editingFinished.connect(self.plotRangesChanged)
+        self.inputX1RangeR.editingFinished.connect(self.plotRangesChanged)
+        self.inputX2RangeL.editingFinished.connect(self.plotRangesChanged)
+        self.inputX2RangeR.editingFinished.connect(self.plotRangesChanged)
         # Show the window at the end
         self.show()
 
@@ -404,34 +411,25 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.epsilonGoldenSearch = newEpsilon
         print("New epsilon:", newEpsilon)
 
-    def plotGraph(self):
-        fig = plt.figure()
-        ax = fig.gca(projection='3d')
-        X = np.arange(-5, 5, 0.25)
-        print(X)
-        Y = np.arange(-5, 5, 0.25)
-        X, Y = np.meshgrid(X, Y)
-        print(X)
-        R = np.sqrt(X**2 + Y**2)
-        Z = np.sin(R)
-        surf = ax.plot_surface(X, Y, Z, rstride=1, cstride=1, cmap=cm.coolwarm,
-                linewidth=0, antialiased=False)
-        ax.set_zlim(-1.01, 1.01)
+    def plotRangesChanged(self):
+        self.plotRanges[0][0] = float(self.inputX1RangeL.text())
+        self.plotRanges[0][1] = float(self.inputX1RangeR.text())
+        self.plotRanges[1][0] = float(self.inputX2RangeL.text())
+        self.plotRanges[1][1] = float(self.inputX2RangeR.text())
 
-        ax.zaxis.set_major_locator(LinearLocator(10))
-        ax.zaxis.set_major_formatter(FormatStrFormatter('%.02f'))
+    def plotResolutionChanged(self):
+        self.plotResolution = float(self.inputResolution.text())
 
-        fig.colorbar(surf, shrink=0.5, aspect=5)
-
-        plt.show()
-
-    def plot3d(self):
+    def plot3d(self, plotRanges = [[-5, 5], [-5, 5]], plotResolution = 100):
         isSuccess, x0list, stopValue, stopNorm,  innerSteps = powellConstr(self.meritum, self.xStart, constrains=self.constraints, deltas=self.deltas, thetas=self.thetas,
                      cMin=self.cMin, m2=self.m2, m1=self.m1, epsilon=self.epsilonPowell,
                                       iterations=self.maxIterations, bracketing=self.bracketing,
                                       bracketStep=self.bracketStep, goldenSearchWindow=self.goldenSearchWindow,
                                       epsilonGoldenSearch=self.epsilonGoldenSearch)
-        x = y = np.arange(-3.0, 5.0, 0.1)
+        print(plotResolution)
+        print(plotRanges)
+        x = np.arange(plotRanges[0][0], plotRanges[0][1], (plotRanges[0][1]-plotRanges[0][0])/plotResolution)
+        y = np.arange(plotRanges[1][0], plotRanges[1][1], (plotRanges[1][1]-plotRanges[1][0])/plotResolution)
         X, Y = np.meshgrid(x, y)
         zs = np.array([self.meritum((x,y)) for x,y in zip(np.ravel(X), np.ravel(Y))])
         Z = zs.reshape(X.shape)
@@ -440,13 +438,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # surface_plot with color grading and color bar
         ax = fig.add_subplot(111, projection='3d')
-        p = ax.plot_surface(X, Y, Z, rstride=3, cstride=3, cmap=cm.coolwarm, linewidth=0, antialiased=False, alpha=0.75)
+        p = ax.plot_surface(X, Y, Z, rstride=3, cstride=3, cmap=cm.jet, linewidth=0, antialiased=False, alpha=0.75)
         cb = fig.colorbar(p, shrink=0.5)
+        #title("Meritum function")
 
         for i in range(len(self.constraints)):
             zs = np.array([self.constraints[i]((x,y)) for x,y in zip(np.ravel(X), np.ravel(Y))])
             Z = zs.reshape(X.shape)
-            p = ax.plot_wireframe(X, Y, Z, cmap=cm.coolwarm, rstride=5, cstride=5)
+            p = ax.plot_wireframe(X, Y, Z, color="red", rstride=5, cstride=5)
 
         # From xStart to first x0
         ax.plot([self.xStart[0], x0list[0][0]], [self.xStart[1], x0list[0][1]]
@@ -472,10 +471,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             ax.scatter(x0list[i][0], x0list[i][1], z, s=100, c='w', marker='o')
 
         ax.scatter(x0list[-1][0], x0list[-1][1], self.meritum(x0list[-1]), s=200, c='r', marker='8')
-
-
         plt.show()
 
+    def startPlot(self):
+        self.plot3d(plotRanges=self.plotRanges, plotResolution=self.plotResolution)
 
     # Powell algorithm
     def startSearch(self):
@@ -505,6 +504,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.logResults.insertPlainText("Minimum not found\n")
             self.logResults.insertPlainText('Number of steps exceeded\n')
         self.logResults.insertPlainText('_'*80 + '\n')
+
+        self.logResults.insertPlainText('0' + ' & ' + str(self.xStart) + ' & ' + str(self.meritum(self.xStart))
+            + ' & ' + '---' + ' & ' + '---' + ' & ' + '---' + ' \\\\ \n')
         for i in range(len(x0list)):
             self.logResults.insertPlainText(str(i+1) + ' & ' + str(x0list[i]) + ' & ' + str(self.meritum(x0list[i]))
             + str(stopValue) + ' & ' + str(stopValue) + ' & ' + str(innerSteps) + ' \\\\ \n')
