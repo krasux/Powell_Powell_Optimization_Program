@@ -14,7 +14,7 @@ from matplotlib.ticker import LinearLocator, FormatStrFormatter
 import matplotlib.pyplot as plt
 import numpy as np
 
-
+from random import random, seed
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     numberOfConstraints = 0
@@ -128,7 +128,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.lblGoldenSearchWindow.setDisabled(True)
 
         # Connect plot
-        self.btnPlot.clicked.connect(self.plotGraph)
+        self.btnPlot.clicked.connect(self.plot3d)
         # Show the window at the end
         self.show()
 
@@ -425,10 +425,36 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         plt.show()
 
+    def plot3d(self):
+        x = y = np.arange(-3.0, 5.0, 0.1)
+        X, Y = np.meshgrid(x, y)
+        zs = np.array([self.meritum((x,y)) for x,y in zip(np.ravel(X), np.ravel(Y))])
+        Z = zs.reshape(X.shape)
+
+
+        fig = plt.figure()
+
+        # `ax` is a 3D-aware axis instance because of the projection='3d' keyword argument to add_subplot
+        #ax = fig.add_subplot(1, 2, 1, projection='3d')
+        # p = ax.plot_surface(X, Y, Z, rstride=4, cstride=4, linewidth=0)
+
+        # surface_plot with color grading and color bar
+        ax = fig.add_subplot(111, projection='3d')
+        p = ax.plot_surface(X, Y, Z, rstride=1, cstride=1, cmap=cm.coolwarm, linewidth=0, antialiased=False)
+        cb = fig.colorbar(p, shrink=0.5)
+
+        n = 100
+        seed(0)                                     # seed let us to have a reproducible set of random numbers
+        x=[random() for i in range(n)]              # generate n random points
+        y=[random() for i in range(n)]
+        z=[random() for i in range(n)]
+        ax.scatter(x, y, z);                        # plot a 3d scatter plot
+        plt.show()
+
 
     # Powell algorithm
     def startSearch(self):
-        x0list = powellConstr(self.meritum, self.xStart, constrains=self.constraints, deltas=self.deltas, thetas=self.thetas,
+        isSuccess, x0list, stopValue, stopNorm,  innerSteps = powellConstr(self.meritum, self.xStart, constrains=self.constraints, deltas=self.deltas, thetas=self.thetas,
                      cMin=self.cMin, m2=self.m2, m1=self.m1, epsilon=self.epsilonPowell,
                                       iterations=self.maxIterations, bracketing=self.bracketing,
                                       bracketStep=self.bracketStep, goldenSearchWindow=self.goldenSearchWindow,
@@ -439,9 +465,24 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.logResults.insertPlainText("Starting x: " + str(self.xStart) + '\n')
         for i in range(len(x0list)):
             self.logResults.insertPlainText('_'*40 + '\n')
-            self.logResults.insertPlainText("Minimum in step " + str(i) + ":\n")
+            self.logResults.insertPlainText("Minimum at step " + str(i+1) + ":\n")
             self.logResults.insertPlainText('X: ' + str(x0list[i]) + '\n')
             self.logResults.insertPlainText("F(x) = " + str(self.meritum(x0list[i])) + '\n')
+            self.logResults.insertPlainText("Stop criterions: " ' ' + str(stopValue) + ' ' + str(stopValue) + ' ' + str(innerSteps) + ' \n')
+        if isSuccess:
+            self.logResults.insertPlainText('_'*60 + '\n')
+            self.logResults.insertPlainText("Minimum found in " + str(len(x0list)) + " step:\n")
+            self.logResults.insertPlainText('X: ' + str(x0list[i]) + '\n')
+            self.logResults.insertPlainText("F(x) = " + str(self.meritum(x0list[i])) + '\n')
+            self.logResults.insertPlainText("Stop criterions: " ' ' + str(stopValue) + ' ' + str(stopValue) + ' ' + str(innerSteps) + ' \n')
+        else:
+            self.logResults.insertPlainText('_'*60 + '\n')
+            self.logResults.insertPlainText("Minimum not found\n")
+            self.logResults.insertPlainText('Number of steps exceeded\n')
+        self.logResults.insertPlainText('_'*80 + '\n')
+        for i in range(len(x0list)):
+            self.logResults.insertPlainText(str(i+1) + ' & ' + str(x0list[i]) + ' & ' + str(self.meritum(x0list[i]))
+            + str(stopValue) + ' & ' + str(stopValue) + ' & ' + str(innerSteps) + ' \\\\ \n')
 
 
         sb = self.logResults.verticalScrollBar()

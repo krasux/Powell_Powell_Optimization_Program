@@ -48,11 +48,11 @@ def powell(F, x, bracketStep=0.001, goldenSearchWindow=0.001,
       # Check for convergence
         if abs(F(x)-fOld) < epsilon:
             result = [float(i) for i in x]
-            return result, j+1, True
+            return result, j+1, True, abs(F(x)-fOld), math.sqrt(np.dot(x-xOld, x-xOld)/n)
 
         if math.sqrt(np.dot(x-xOld, x-xOld)/n) < epsilon:
             result = [float(i) for i in x]
-            return result, j+1, True
+            return result, j+1, True, abs(F(x)-fOld), math.sqrt(np.dot(x-xOld, x-xOld)/n)
 
 
       # Identify biggest decrease & update search directions
@@ -61,5 +61,4 @@ def powell(F, x, bracketStep=0.001, goldenSearchWindow=0.001,
             u[i] = u[i+1]
         u[n-1] = v
 
-    print("Powell did not converge")
-    return x, j+1, False
+    return x, j+1, False, abs(F(x)-fOld), math.sqrt(np.dot(x-xOld, x-xOld)/n)
