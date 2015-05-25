@@ -23,20 +23,20 @@ def bracket(f, x1, h):
         f2 = f(x2)
       # Check if minimum between x1 - h and x1 + h
         if f2 > f1:
-            return x2, x1 - h
+            return x2, x1 - h, True
   # Search loop
     for i in range(100):
         h = c*h
         x3 = x2 + h
         f3 = f(x3)
         if f3 > f2:
-            return x1, x3
+            return x1, x3, True
         x1 = x2
         x2 = x3
         f1 = f2
         f2 = f3
     print("Bracket did not find a mimimum")
-    return False, False
+    return False, False, False
 
 def search(f, a, b, tol=1.0e-15):
     nIter = int(math.ceil(-2.078087*math.log(tol/abs(b-a))))

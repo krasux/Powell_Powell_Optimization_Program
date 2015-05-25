@@ -7,6 +7,10 @@ def powellConstr(F, x0in, constrains=[], deltas=[], thetas=[], cMin=0.01, iterat
     locThetas = []
     locDeltas = []
     c0 = 1e6
+    cOutList = []
+    stopValueList = []
+    stopNormList = []
+    nIterList = []
 
     for theta in thetas:
         locThetas.append(theta)
@@ -27,14 +31,20 @@ def powellConstr(F, x0in, constrains=[], deltas=[], thetas=[], cMin=0.01, iterat
         x0, nIter, success, stopValue, stopNorm = powell(F, x0, epsilon=epsilon, iterations=iterations, bracketing=bracketing,
                                       bracketStep=bracketStep, goldenSearchWindow=goldenSearchWindow,
                                       epsilonGoldenSearch=epsilonGoldenSearch)
+        if not success:
+            return False, x0list, stopValue, stopNorm,  nIter, cOutList
         #print("Pkt minimum:", x0)
         #print("F(x):", F(x0))
         x0list.append(x0)
-        return True, x0list, stopValue, stopNorm,  nIter
+        cOutList.append(0)
+        stopValueList.append(stopValue)
+        stopNormList.append(stopNorm)
+        nIterList.append(nIter)
+        return True, x0list, stopValueList, stopNormList,  nIterList, cOutList
 
     #--------------------------------------------------------------------------------#
     # WPROWADZANIE OGRANICZEN
-    c = 0.01
+    c = 0
     sixStep = False
 
     for k in range(iterations):    # Allow for 100 cycles as default:
@@ -56,7 +66,12 @@ def powellConstr(F, x0in, constrains=[], deltas=[], thetas=[], cMin=0.01, iterat
         x0, nIter, success, stopValue, stopNorm = powell(f, x0, epsilon=epsilon, iterations=iterations, bracketing=bracketing,
                                       bracketStep=bracketStep, goldenSearchWindow=goldenSearchWindow,
                                       epsilonGoldenSearch=epsilonGoldenSearch)
+        if not success:
+            return False, x0list, stopValueList, stopNormList,  nIterList, cOutList
         x0list.append(x0)
+        stopValueList.append(stopValue)
+        stopNormList.append(stopNorm)
+        nIterList.append(nIter)
         # print("x0 w trakcie:", x0)
         c0 = c
 
@@ -70,6 +85,7 @@ def powellConstr(F, x0in, constrains=[], deltas=[], thetas=[], cMin=0.01, iterat
         # Nale¿y siê upewniæ, ¿e jest ograniczenie, ktore nie zostalo spelnione
         if len(constrViolation) > 0:
             c = max(constrViolation)
+        cOutList.append(c)
         #print("The largest violation of constraints:", c)
 
         # 4 zbadaj czy zosta³o spe³nione kryterium na "minimum" tzn. czy c<cMin.
@@ -77,7 +93,7 @@ def powellConstr(F, x0in, constrains=[], deltas=[], thetas=[], cMin=0.01, iterat
             #print('zostalo spelnione kryterium na "minimum" tzn. czy c<cMi')
             #print(f(x0))
             #print ("Xmin:", x0)
-            return True, x0list, stopValue, stopNorm,  nIter
+            return True, x0list, stopValueList, stopNormList,  nIterList, cOutList
         # Jeœli tak to zakoñcz dzia³anie procedury, natomiast jeœli nie to kolejne kroki.
 
         # 5 Zbadaj czy po minimalizacji (krok 2) nastapilo zmniejszenie naruszenia ograniczen,
@@ -121,4 +137,5 @@ def powellConstr(F, x0in, constrains=[], deltas=[], thetas=[], cMin=0.01, iterat
         for i in modifiedIndexes:
             locDeltas[i] *= m2
             locThetas[i] /= m2
-    return True, x0list, stopValue, stopNorm,  nIter
+
+    return True, x0list, stopValueList, stopNormList,  nIterList, cOutList

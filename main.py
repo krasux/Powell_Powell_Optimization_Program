@@ -421,7 +421,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.plotResolution = float(self.inputResolution.text())
 
     def plot3d(self, plotRanges = [[-5, 5], [-5, 5]], plotResolution = 100):
-        isSuccess, x0list, stopValue, stopNorm,  innerSteps = powellConstr(self.meritum, self.xStart, constrains=self.constraints, deltas=self.deltas, thetas=self.thetas,
+        isSuccess, x0list, stopValue, stopNorm,  innerSteps, cOut = powellConstr(self.meritum, self.xStart, constrains=self.constraints, deltas=self.deltas, thetas=self.thetas,
                      cMin=self.cMin, m2=self.m2, m1=self.m1, epsilon=self.epsilonPowell,
                                       iterations=self.maxIterations, bracketing=self.bracketing,
                                       bracketStep=self.bracketStep, goldenSearchWindow=self.goldenSearchWindow,
@@ -438,14 +438,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # surface_plot with color grading and color bar
         ax = fig.add_subplot(111, projection='3d')
-        p = ax.plot_surface(X, Y, Z, rstride=3, cstride=3, cmap=cm.jet, linewidth=0, antialiased=False, alpha=0.75)
+        p = ax.plot_surface(X, Y, Z, rstride=3, cstride=3, cmap=cm.jet, linewidth=0, antialiased=False, alpha=0.7)
         cb = fig.colorbar(p, shrink=0.5)
         #title("Meritum function")
 
         for i in range(len(self.constraints)):
             zs = np.array([self.constraints[i]((x,y)) for x,y in zip(np.ravel(X), np.ravel(Y))])
             Z = zs.reshape(X.shape)
-            p = ax.plot_wireframe(X, Y, Z, color="red", rstride=5, cstride=5)
+            p = ax.plot_wireframe(X, Y, Z, color="gray", rstride=5, cstride=5)
 
         # From xStart to first x0
         ax.plot([self.xStart[0], x0list[0][0]], [self.xStart[1], x0list[0][1]]
@@ -478,12 +478,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     # Powell algorithm
     def startSearch(self):
-        isSuccess, x0list, stopValue, stopNorm,  innerSteps = powellConstr(self.meritum, self.xStart, constrains=self.constraints, deltas=self.deltas, thetas=self.thetas,
+        isSuccess, x0list, stopValueList, stopNormList,  nIterList, cOutList = powellConstr(self.meritum, self.xStart, constrains=self.constraints, deltas=self.deltas, thetas=self.thetas,
                      cMin=self.cMin, m2=self.m2, m1=self.m1, epsilon=self.epsilonPowell,
                                       iterations=self.maxIterations, bracketing=self.bracketing,
                                       bracketStep=self.bracketStep, goldenSearchWindow=self.goldenSearchWindow,
                                       epsilonGoldenSearch=self.epsilonGoldenSearch)
-
+        if not isSuccess:
+            self.logResults.insertPlainText('_'*80 + '\n')
+            self.logResults.insertPlainText("Minimum cannot be found\n")
+            self.logResults.insertPlainText("Please check objective function and parameters\n")
+            return
         self.logResults.insertPlainText('_'*80 + '\n')
         self.logResults.insertPlainText("Searching for minimum of: " + str(self.cmbObjFun.currentText()) +'\n')
         self.logResults.insertPlainText("Starting x: " + str(self.xStart) + '\n')
@@ -492,24 +496,27 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.logResults.insertPlainText("Minimum at step " + str(i+1) + ":\n")
             self.logResults.insertPlainText('X: ' + str(x0list[i]) + '\n')
             self.logResults.insertPlainText("F(x) = " + str(self.meritum(x0list[i])) + '\n')
-            self.logResults.insertPlainText("Stop criterions: " ' ' + str(stopValue) + ' ' + str(stopValue) + ' ' + str(innerSteps) + ' \n')
+            self.logResults.insertPlainText("Max violation of constraints: " + str(str(cOutList[i])) + '\n')
+            self.logResults.insertPlainText("Stop criterions: " ' ' + str(stopValueList[i]) + ' ' + str(stopNormList[i]) + ' ' + str(nIterList[i]) + ' \n')
         if isSuccess:
             self.logResults.insertPlainText('_'*60 + '\n')
             self.logResults.insertPlainText("Minimum found in " + str(len(x0list)) + " step:\n")
             self.logResults.insertPlainText('X: ' + str(x0list[i]) + '\n')
             self.logResults.insertPlainText("F(x) = " + str(self.meritum(x0list[i])) + '\n')
-            self.logResults.insertPlainText("Stop criterions: " ' ' + str(stopValue) + ' ' + str(stopValue) + ' ' + str(innerSteps) + ' \n')
+            self.logResults.insertPlainText("Max violation of constraints: " + str(str(cOutList[i])) + '\n')
+            self.logResults.insertPlainText("Stop criterions: " ' ' + str(stopValueList[i]) + ' ' + str(stopNormList[i]) + ' ' + str(nIterList[i]) + ' \n')
         else:
             self.logResults.insertPlainText('_'*60 + '\n')
             self.logResults.insertPlainText("Minimum not found\n")
             self.logResults.insertPlainText('Number of steps exceeded\n')
         self.logResults.insertPlainText('_'*80 + '\n')
 
-        self.logResults.insertPlainText('0' + ' & ' + str(self.xStart) + ' & ' + str(self.meritum(self.xStart))
-            + ' & ' + '---' + ' & ' + '---' + ' & ' + '---' + ' \\\\ \n')
-        for i in range(len(x0list)):
-            self.logResults.insertPlainText(str(i+1) + ' & ' + str(x0list[i]) + ' & ' + str(self.meritum(x0list[i]))
-            + str(stopValue) + ' & ' + str(stopValue) + ' & ' + str(innerSteps) + ' \\\\ \n')
+        #self.logResults.insertPlainText('0' + ' & ' + str(self.xStart) + ' & ' + str(self.meritum(self.xStart))
+        #    + ' & ' + '---' + ' & ' + '---' + ' & ' + '---' + ' \\\\ \n')
+
+        #for i in range(len(x0list)):
+        #    self.logResults.insertPlainText(str(i+1) + ' & ' + str(x0list[i]) + ' & ' + str(self.meritum(x0list[i]))
+        #    + ' & ' + "%.4e"% cOutList[i] + ' & ' + "%.4e"% stopValueList[i] + ' & ' + "%.4e"% stopNormList[i] + ' & ' + str(nIterList[i]) + ' \\\\ \n')
 
 
         sb = self.logResults.verticalScrollBar()

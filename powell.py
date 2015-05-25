@@ -27,10 +27,12 @@ def powell(F, x, bracketStep=0.001, goldenSearchWindow=0.001,
             #print(i)
             v = u[i]
             if bracketing:   # Check if bracketing is selected
-                a, b = bracket(f, 0.0, bracketStep)
+                a, b, isGood = bracket(f, 0.0, bracketStep)
             else:
                 a = -goldenSearchWindow
                 b = goldenSearchWindow
+            if not isGood:
+                return x, j+1, False, abs(F(x)-fOld), math.sqrt(np.dot(x-xOld, x-xOld)/n)
             s, fMin = search(f, a, b, tol=epsilonGoldenSearch)
             df[i] = fOld - fMin
             fOld = fMin
@@ -38,7 +40,7 @@ def powell(F, x, bracketStep=0.001, goldenSearchWindow=0.001,
       # Last line search in the cycle    
         v = x - xOld
         if bracketing:   # Check if bracketing is selected
-            a, b = bracket(f, 0.0, bracketStep)
+            a, b, isGood = bracket(f, 0.0, bracketStep)
         else:
             a = -goldenSearchWindow
             b = goldenSearchWindow
