@@ -426,29 +426,54 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         plt.show()
 
     def plot3d(self):
+        isSuccess, x0list, stopValue, stopNorm,  innerSteps = powellConstr(self.meritum, self.xStart, constrains=self.constraints, deltas=self.deltas, thetas=self.thetas,
+                     cMin=self.cMin, m2=self.m2, m1=self.m1, epsilon=self.epsilonPowell,
+                                      iterations=self.maxIterations, bracketing=self.bracketing,
+                                      bracketStep=self.bracketStep, goldenSearchWindow=self.goldenSearchWindow,
+                                      epsilonGoldenSearch=self.epsilonGoldenSearch)
         x = y = np.arange(-3.0, 5.0, 0.1)
         X, Y = np.meshgrid(x, y)
         zs = np.array([self.meritum((x,y)) for x,y in zip(np.ravel(X), np.ravel(Y))])
         Z = zs.reshape(X.shape)
 
-
         fig = plt.figure()
-
-        # `ax` is a 3D-aware axis instance because of the projection='3d' keyword argument to add_subplot
-        #ax = fig.add_subplot(1, 2, 1, projection='3d')
-        # p = ax.plot_surface(X, Y, Z, rstride=4, cstride=4, linewidth=0)
 
         # surface_plot with color grading and color bar
         ax = fig.add_subplot(111, projection='3d')
-        p = ax.plot_surface(X, Y, Z, rstride=1, cstride=1, cmap=cm.coolwarm, linewidth=0, antialiased=False)
+        p = ax.plot_surface(X, Y, Z, rstride=3, cstride=3, cmap=cm.coolwarm, linewidth=0, antialiased=False, alpha=0.75)
         cb = fig.colorbar(p, shrink=0.5)
 
-        n = 100
-        seed(0)                                     # seed let us to have a reproducible set of random numbers
-        x=[random() for i in range(n)]              # generate n random points
-        y=[random() for i in range(n)]
-        z=[random() for i in range(n)]
-        ax.scatter(x, y, z);                        # plot a 3d scatter plot
+        for i in range(len(self.constraints)):
+            zs = np.array([self.constraints[i]((x,y)) for x,y in zip(np.ravel(X), np.ravel(Y))])
+            Z = zs.reshape(X.shape)
+            p = ax.plot_wireframe(X, Y, Z, cmap=cm.coolwarm, rstride=5, cstride=5)
+
+        # From xStart to first x0
+        ax.plot([self.xStart[0], x0list[0][0]], [self.xStart[1], x0list[0][1]]
+                        ,[self.meritum(self.xStart), self.meritum(x0list[0])], c='black', linewidth=3)
+        if len(x0list) > 1:
+            for i in range(len(x0list)):
+                if i == len(x0list)-1:
+                    break
+                ax.plot([x0list[i][0], x0list[i+1][0]], [x0list[i][1], x0list[i+1][1]]
+                        ,[self.meritum(x0list[i]),self.meritum(x0list[i+1])], c='black', linewidth=3)
+
+        else:
+            z = self.meritum(x0list[0])
+            ax.scatter(x0list[0][0], x0list[0][1], z)
+
+        # Plot x0 from the list
+
+        ax.scatter(self.xStart[0], self.xStart[1], self.meritum(self.xStart), s=100, c='g', marker='D')
+        for i in range(len(x0list)):
+            if i == len(x0list)-1:
+                break
+            z = self.meritum(x0list[i])
+            ax.scatter(x0list[i][0], x0list[i][1], z, s=100, c='w', marker='o')
+
+        ax.scatter(x0list[-1][0], x0list[-1][1], self.meritum(x0list[-1]), s=200, c='r', marker='8')
+
+
         plt.show()
 
 
